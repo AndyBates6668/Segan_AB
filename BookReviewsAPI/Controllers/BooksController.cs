@@ -1,6 +1,9 @@
 using BookReviewsAPI.Models;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
+using System.Net;
 
 namespace BookReviewsAPI.Controllers
 {
@@ -9,25 +12,33 @@ namespace BookReviewsAPI.Controllers
     public class BooksController : ControllerBase
     {
         [HttpGet]
-        public IActionResult GetBooks()
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+        public Results<Ok<List<Book>>, NoContent> GetBooks()
         {
             throw new NotImplementedException();
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetBook(int id)
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        public Results<Ok<Book>, BadRequest<string>> GetBook(int id)
         {
             throw new NotImplementedException();
         }
 
         [HttpPost("{id}/reviews")]
-        public IActionResult AddReview(int id, [FromBody] Review review)
+        [ProducesResponseType((int)HttpStatusCode.Created)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        public Results<Created<string>, BadRequest<string>> AddReview(int id, [FromBody] Review review)
         {
             throw new NotImplementedException();
         }
 
         [HttpGet("{id}/reviews")]
-        public IActionResult GetReviews(int id)
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        public Results<Ok<List<Book>>, BadRequest<string>> GetReviews(int id)
         {
             throw new NotImplementedException();
         }
