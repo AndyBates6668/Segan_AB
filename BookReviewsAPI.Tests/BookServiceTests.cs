@@ -1,23 +1,67 @@
+using BookReviewsAPI.Services;
+using FluentAssertions;
+using System;
 using Xunit;
 
 namespace BookReviewsAPI.Tests
 {
     public class BookServiceTests
     {
-        //private readonly IBookService _bookService;
-
-        public BookServiceTests()
+        [Fact]
+        public void GetBook_ShouldThrowArgumentException_IfBookDoesNotExist()
         {
-            //_bookService = new BookService();
+            // Arrange.
+            var bookService = new BookService();
+
+            // Act.
+            void getBook() => bookService.GetBook(666);
+
+            // Assert.
+            var exception = Assert.Throws<ArgumentException>(getBook);
+            exception.Message.Should().Be("Book with id 666 not found.");
         }
 
         [Fact]
-        public void GetAllBooks_ShouldReturn_EmptyList_IfNoBooksExist()
+        public void GetBook_ShouldReturn_Book_IfBookExists()
         {
-            // Test the implementation when there are no books
-            //Assert.Throws<NotImplementedException>(() => _bookService.GetAllBooks());
+            // Arrange.
+            var bookService = new BookService();
+
+            // Act.
+            var book = bookService.GetBook(1);
+
+            // Assert.
+            book.Should().NotBeNull();
+            book.Id.Should().Be(1);
         }
 
-        // Additional test cases can be added here as part of the task
+        [Fact]
+        public void GetBooks_ShouldReturn_EmptyList_IfNoBooksExist()
+        {
+            // Arrange.
+            var bookService = new BookService();
+            bookService.Clear();
+
+            // Act.
+            var books = bookService.GetBooks();
+
+            // Assert.
+            books.Should().BeEmpty();
+        }
+
+        [Fact]
+        public void GetBooks_ShouldReturn_List_IfBooksExist()
+        {
+            // Arrange.
+            var bookService = new BookService();
+
+            // Act.
+            var books = bookService.GetBooks();
+
+            // Assert.
+            books.Should().HaveCount(1);
+        }
+
+        // Review tests follow same pattern above...
     }
 }
