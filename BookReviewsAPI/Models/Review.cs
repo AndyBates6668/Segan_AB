@@ -1,4 +1,4 @@
-namespace BookReviewsAPI
+namespace BookReviewsAPI.Models
 {
     public class Review
     {
