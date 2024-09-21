@@ -1,6 +1,7 @@
 ﻿using BookReviewsAPI.Interfaces;
 using BookReviewsAPI.Models;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace BookReviewsAPI.Services
 {
@@ -20,22 +21,35 @@ namespace BookReviewsAPI.Services
 
         public List<Book> GetBooks()
         {
-            throw new System.NotImplementedException();
+            return _books;
         }
 
         public Book GetBook(int bookId)
         {
-            throw new System.NotImplementedException();
+            var book = _books.SingleOrDefault(book => book.Id == bookId);
+            if (null == book)
+                throw new System.ArgumentException($"Book with id {bookId} not found.");
+            return book;
         }
 
         public void AddReview(int bookId, Review review)
         {
-            throw new System.NotImplementedException();
+            var book = _books.SingleOrDefault(book => book.Id == bookId);
+
+            if (null == book)
+                throw new System.ArgumentException($"Book with id {bookId} not found.");
+
+            book.Reviews.Add(review);
         }
 
         public List<Review> GetReviews(int bookId)
         {
-            throw new System.NotImplementedException();
+            var book = _books.SingleOrDefault(book => book.Id == bookId);
+
+            if (null == book)
+                throw new System.ArgumentException($"Book with id {bookId} not found.");
+
+            return book.Reviews;
         }
     }
 }

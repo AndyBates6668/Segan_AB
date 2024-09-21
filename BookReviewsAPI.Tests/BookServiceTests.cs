@@ -14,10 +14,11 @@ namespace BookReviewsAPI.Tests
             var bookService = new BookService();
 
             // Act.
-            void action() => bookService.GetBook(666);
+            void getBook() => bookService.GetBook(666);
 
             // Assert.
-            Assert.Throws<ArgumentException>(action);
+            var exception = Assert.Throws<ArgumentException>(getBook);
+            exception.Message.Should().Be("Book with id 666 not found.");
         }
 
         [Fact]
@@ -45,7 +46,7 @@ namespace BookReviewsAPI.Tests
             var books = bookService.GetBooks();
 
             // Assert.
-            books.Should().HaveCount(0);
+            books.Should().BeEmpty();
         }
 
         [Fact]
@@ -60,5 +61,7 @@ namespace BookReviewsAPI.Tests
             // Assert.
             books.Should().HaveCount(1);
         }
+
+        // Review tests follow same pattern above...
     }
 }
