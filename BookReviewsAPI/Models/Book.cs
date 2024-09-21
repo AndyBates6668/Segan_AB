@@ -1,4 +1,6 @@
-namespace BookReviewsAPI
+using System.Collections.Generic;
+
+namespace BookReviewsAPI.Models
 {
     public class Book
     {

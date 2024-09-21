@@ -1,6 +1,8 @@
+using BookReviewsAPI.Models;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
-namespace BookReviewsAPI
+namespace BookReviewsAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -9,26 +11,25 @@ namespace BookReviewsAPI
         [HttpGet]
         public IActionResult GetBooks()
         {
-            var books = _bookService.GetAllBooks();
-            return Ok(new List<Book>());
+            throw new NotImplementedException();
         }
 
         [HttpGet("{id}")]
         public IActionResult GetBook(int id)
         {
-            return NotFound();
+            throw new NotImplementedException();
         }
 
         [HttpPost("{id}/reviews")]
         public IActionResult AddReview(int id, [FromBody] Review review)
         {
-            return NoContent();
+            throw new NotImplementedException();
         }
 
         [HttpGet("{id}/reviews")]
         public IActionResult GetReviews(int id)
         {
-            return Ok(new List<Review>());
+            throw new NotImplementedException();
         }
     }
 }
