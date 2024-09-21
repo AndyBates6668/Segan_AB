@@ -4,6 +4,7 @@ using BookReviewsAPI.Models;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http.HttpResults;
 using NSubstitute;
+using System;
 using System.Collections.Generic;
 using Xunit;
 
@@ -12,10 +13,15 @@ namespace BookReviewsAPI.Tests
     public class BooksControllerTests
     {
         [Fact]
-        public void GetBook_ReturnsBadRequest_IfBookDoesNotExist()
+        public void GetBook_ReturnsBadRequestIfBookDoesNotExist()
         {
             // Arrange.
             var mockBookService = Substitute.For<IBookService>();
+            mockBookService.GetBook(Arg.Any<int>())
+                .Returns(x =>
+                {
+                    throw new ArgumentException("Book with id 666 not found.");
+                });
             var booksController = new BooksController(mockBookService);
 
             // Act.
@@ -23,7 +29,7 @@ namespace BookReviewsAPI.Tests
 
             // Assert.
             response.Should().NotBeNull();
-            var result = response.Result as BadRequest<string>;
+            var result = response.Result as NotFound<string>;
             result.Should().NotBeNull();
             result.Value.Should().Be("Book with id 666 not found.");
         }

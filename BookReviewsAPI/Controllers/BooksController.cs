@@ -1,5 +1,6 @@
 using BookReviewsAPI.Interfaces;
 using BookReviewsAPI.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -24,15 +25,24 @@ namespace BookReviewsAPI.Controllers
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
         public Results<Ok<List<Book>>, NoContent> GetBooks()
         {
-            throw new NotImplementedException();
+            var books = _bookService.GetBooks();
+            return TypedResults.Ok(books);
         }
 
         [HttpGet("{id}")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public Results<Ok<Book>, BadRequest<string>> GetBook(int id)
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        public Results<Ok<Book>, NotFound<string>> GetBook(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var book = _bookService.GetBook(id);
+                return TypedResults.Ok(book);
+            }
+            catch (ArgumentException e)
+            {
+                return TypedResults.NotFound(e.Message);
+            }
         }
 
         [HttpPost("{id}/reviews")]
