@@ -1,3 +1,4 @@
+using BookReviewsAPI.Interfaces;
 using BookReviewsAPI.Models;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -11,6 +12,13 @@ namespace BookReviewsAPI.Controllers
     [ApiController]
     public class BooksController : ControllerBase
     {
+        private IBookService _bookService;
+
+        public BooksController(IBookService bookService)
+        {
+            _bookService = bookService;
+        }
+
         [HttpGet]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
